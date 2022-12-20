@@ -1,0 +1,9 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/mysql-workbench-master
+/mysql-workbench-dark-theme-master
+/entrega_8
+/entrega_2
+/entrega_13/docs
+/docs
