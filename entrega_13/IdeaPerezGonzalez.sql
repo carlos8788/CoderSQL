@@ -43,7 +43,7 @@ CREATE TABLE pasaje (
 
 CREATE TABLE vuelo (
     id_vuelo INT NOT NULL AUTO_INCREMENT,
-    horario_vuelo DATETIME NOT NULL,
+    horario_vuelo VARCHAR(100) NOT NULL,
     id_piloto INT NOT NULL,
     id_ruta INT NOT NULL,
     id_avion INT NOT NULL,
