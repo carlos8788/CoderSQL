@@ -1,3 +1,4 @@
+DROP SCHEMA vuelos_comerciales;
 CREATE SCHEMA IF NOT EXISTS vuelos_comerciales;
 use vuelos_comerciales;
 CREATE TABLE pasajero (
