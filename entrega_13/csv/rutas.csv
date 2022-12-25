@@ -1,33 +1,34 @@
 origen,destino,distancia
-Zhoupu,Lampari,9875.80
-Guarumal,Spokoynaya,7812.26
-Nyrob,Pangligaran,9133.27
-Devon,Duzhenwan,5406.98
-Centro Habana,Puzi,6329.29
-Szczerbice,Comapa,7556.25
-Santo Amaro,Kota Bharu,4636.07
-Moluo,Kuala Lumpur,7137.68
-Pasinan Barat,Fonte da Aldeia,5675.82
-Ipoh,Chutove,5921.37
-Akita Shi,Hengshi,3405.24
-El Corpus,Olonets,1035.13
-Aguas Verdes,Stegna,5758.58
-Criuleni,Karangnongko,7227.19
-Asker,Ninghai,5822.49
-Maddarulug Norte,Malaga,2259.94
-Jingdu,Dicamay,4683.81
-Huifa,Sarrazola,4845.76
-Shenavan,Laylay,5748.84
-Fubin,Nanmu,1012.16
-Des Moines,Oenam,2490.70
-Bruxelles,Vishow,6378.81
-Luzern,Kuloy,4047.49
-Lexington,Roriz,1904.80
-Papeete,Boulaouane,8276.85
-Annecy,Rettikhovka,1666.91
-Xiongshan,Palca,2348.73
-Lexington,Cheongpyeong,8233.80
-Orichi,Franca,3743.96
-Graksop,Armen,8968.89
-Yeysk,Laoxialu,8192.31
-Shibukawa,Arosbaya,3480.92
+
+'Zhoupu','Lampari',9875.8
+'Guarumal','Spokoynaya',7812.26
+'Nyrob','Pangligaran',9133.27
+'Devon','Duzhenwan',5406.98
+'Centro Habana','Puzi',6329.29
+'Szczerbice','Comapa',7556.25
+'Santo Amaro','Kota Bharu',4636.07
+'Moluo','Kuala Lumpur',7137.68
+'Pasinan Barat','Fonte da Aldeia',5675.82
+'Ipoh','Chutove',5921.37
+'Akita Shi','Hengshi',3405.24
+'El Corpus','Olonets',1035.13
+'Aguas Verdes','Stegna',5758.58
+'Criuleni','Karangnongko',7227.19
+'Asker','Ninghai',5822.49
+'Maddarulug Norte','Malaga',2259.94
+'Jingdu','Dicamay',4683.81
+'Huifa','Sarrazola',4845.76
+'Shenavan','Laylay',5748.84
+'Fubin','Nanmu',1012.16
+'Des Moines','Oenam',2490.7
+'Bruxelles','Vishow',6378.81
+'Luzern','Kuloy',4047.49
+'Lexington','Roriz',1904.8
+'Papeete','Boulaouane',8276.85
+'Annecy','Rettikhovka',1666.91
+'Xiongshan','Palca',2348.73
+'Lexington','Cheongpyeong',8233.8
+'Orichi','Franca',3743.96
+'Graksop','Armen',8968.89
+'Yeysk','Laoxialu',8192.31
+'Shibukawa','Arosbaya',3480.92
