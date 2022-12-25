@@ -1,58 +1,131 @@
-DROP SCHEMA vuelos_comerciales;
-CREATE SCHEMA IF NOT EXISTS vuelos_comerciales;
 use vuelos_comerciales;
-CREATE TABLE pasajero (
-    id_pasajero INT NOT NULL AUTO_INCREMENT,
-    nombre_pasajero VARCHAR(45) NOT NULL,
-    apellido_pasajero VARCHAR(45) NOT NULL,
-    domicilio VARCHAR(60) NULL,
-    PRIMARY KEY (id_pasajero)
-);
+INSERT INTO avion (capacidad,modelo,anio_creacion)
+VALUES
+(58,"Airbus320",1980),
+(54,"Boeing747",2007),
+(50,"Airbus340",2000),
+(76,"Boeing747-F-Freighter",1987),
+(84,"Airbus300-600ST",2007),
+(100,"Boeing737",2000),
+(87,"Boeing747-400ERF",1985),
+(70,"Airbus319",2014),
+(73,"Boeing747-F-Freighter",2022),
+(65,"Boeing777-200",1985),
+(83,"Boeing747-400ERF",1999),
+(62,"Airbus319",1984),
+(60,"Boeing747",2003),
+(50,"Boeing747-F-Freighter",1980),
+(84,"Boeing737",2002),
+(74,"Airbus321",1996),
+(87,"Airbus319",2018),
+(74,"Airbus320",1991),
+(68,"Airbus321",2011),
+(96,"Boeing747",1995);
 
-CREATE TABLE piloto (
-    id_piloto INT NOT NULL AUTO_INCREMENT,
-    nombre_piloto VARCHAR(45) NOT NULL,
-    apellido_piloto VARCHAR(45) NOT NULL,
-    antiguedad INT NOT NULL,
-    PRIMARY KEY (id_piloto)
-);
+INSERT INTO pasajero (nombre_pasajero,apellido_pasajero,domicilio)
+VALUES
+('Chrissie','Burmaster','29842 Schmedeman Crossing'),
+('Alister','Beazer','13 Harper Lane'),
+('Osbourne','Fernao','20 Debs Street'),
+('Francklin','Urien','2 Westridge Park'),
+('Beret','Anderson','5744 Badeau Hill'),
+('Zechariah','Keener','0206 Tennyson Park'),
+('Derrik','Fynes','58355 Kim Center'),
+('Lettie','Ord','9759 Westerfield Parkway'),
+('Ediva','Twiggs','10459 American Ash Avenue'),
+('Albertine','Pulster','4 Continental Drive'),
+('Karilynn','Wibberley','5 Dunning Crossing'),
+('Ketti','Hinrichsen','28 Sutherland Crossing'),
+('Giacopo','Szymanek','34 Cambridge Junction'),
+('Richard','Feehan','80683 Forest Dale Parkway'),
+('Liuka','Refford','0824 Hanson Crossing'),
+('Cher','Haylett','1087 Hermina Lane'),
+('Niki','Pescud','271 Bunker Hill Hill'),
+('Keith','Tooley','8 Sycamore Terrace'),
+('Elia','Guynemer','827 Lotheville Center'),
+('Millard','Dollard','62 Bonner Drive');
 
-CREATE TABLE avion (
-    id_avion INT NOT NULL AUTO_INCREMENT,
-    capacidad INT NOT NULL,
-    modelo VARCHAR(150) NOT NULL,
-    anio_creacion INT NOT NULL,
-    PRIMARY KEY (id_avion)
-);
+INSERT INTO piloto (nombre_piloto,apellido_piloto,antiguedad)
+VALUES
+('Odille','MacCafferky',25),
+('Verney','Hug',27),
+('Janeta','Matzl',14),
+('Cammi','Dyzart',24),
+('Florance','Beeson',19),
+('Virgie','Lenoir',17),
+('Richardo','Prantoni',21),
+('Delcine','Siflet',16),
+('Brit','Klossmann',30),
+('Cookie','Filpo',10),
+('Mellisa','Gatfield',3),
+('Tanya','Iacovini',24),
+('Jennie','McCaskill',3),
+('Reinold','Bilsborrow',2),
+('Gaylor','Stuther',10),
+('Jonell','Gabbett',9),
+('Richy','Shannon',17),
+('Dorotea','Coneybeare',28),
+('Karlis','Howgill',21),
+('Kirbie','Duffin',18);
 
-CREATE TABLE ruta (
-    id_ruta INT NOT NULL AUTO_INCREMENT,
-    origen VARCHAR(45) NOT NULL,
-    destino VARCHAR(45) NOT NULL,
-    distancia DECIMAL(8,3) NOT NULL,
-    PRIMARY KEY (id_ruta)
-);
+INSERT INTO ruta (origen,destino,distancia)
+VALUES
+('Zhoupu','Lampari',9875.8),
+('Guarumal','Spokoynaya',7812.26),
+('Nyrob','Pangligaran',9133.27),
+('Devon','Duzhenwan',5406.98),
+('Centro Habana','Puzi',6329.29),
+('Szczerbice','Comapa',7556.25),
+('Santo Amaro','Kota Bharu',4636.07),
+('Moluo','Kuala Lumpur',7137.68),
+('Pasinan Barat','Fonte da Aldeia',5675.82),
+('Ipoh','Chutove',5921.37),
+('Akita Shi','Hengshi',3405.24),
+('El Corpus','Olonets',1035.13),
+('Aguas Verdes','Stegna',5758.58),
+('Criuleni','Karangnongko',7227.19),
+('Asker','Ninghai',5822.49),
+('Maddarulug Norte','Malaga',2259.94),
+('Jingdu','Dicamay',4683.81),
+('Huifa','Sarrazola',4845.76),
+('Shenavan','Laylay',5748.84),
+('Fubin','Nanmu',1012.16),
+('Des Moines','Oenam',2490.7),
+('Bruxelles','Vishow',6378.81),
+('Luzern','Kuloy',4047.49),
+('Lexington','Roriz',1904.8),
+('Papeete','Boulaouane',8276.85),
+('Annecy','Rettikhovka',1666.91),
+('Xiongshan','Palca',2348.73),
+('Lexington','Cheongpyeong',8233.8),
+('Orichi','Franca',3743.96),
+('Graksop','Armen',8968.89),
+('Yeysk','Laoxialu',8192.31),
+('Shibukawa','Arosbaya',3480.92);
 
-CREATE TABLE pasaje (
-    id_pasaje INT NOT NULL AUTO_INCREMENT,
-    asiento INT NOT NULL,
-    id_pasajero INT NOT NULL,
-    id_vuelo INT NOT NULL,
-    PRIMARY KEY (id_pasaje),
-    FOREIGN KEY (id_pasajero) REFERENCES pasajero(id_pasajero)
-);
 
-CREATE TABLE vuelo (
-    id_vuelo INT NOT NULL AUTO_INCREMENT,
-    horario_vuelo VARCHAR(100) NOT NULL,
-    id_piloto INT NOT NULL,
-    id_ruta INT NOT NULL,
-    id_avion INT NOT NULL,
-    fecha DATE NOT NULL,
-    PRIMARY KEY (id_vuelo),
-    FOREIGN KEY (id_piloto) REFERENCES piloto(id_piloto),
-    FOREIGN KEY (id_ruta) REFERENCES ruta(id_ruta),
-    FOREIGN KEY (id_avion) REFERENCES avion(id_avion)
-);
+INSERT INTO vuelo (horario_vuelo,id_piloto,id_ruta,id_avion,fecha)
+VALUES
+("15:06",20,1,16,"2023-01-01"),
+("19:09",6,2,12,"2023-01-02"),
+("12:39",9,3,11,"2023-01-03"),
+("11:58",5,4,6,"2023-01-07"),
+("13:22",15,8,1,"2023-01-08"),
+("20:25",6,9,12,"2023-01-09"),
+("17:48",3,10,7,"2023-01-10"),
+("13:48",9,11,11,"2023-01-11"),
+("13:02",18,12,7,"2023-01-12"),
+("12:10",16,15,8,"2023-01-30");
 
-ALTER TABLE pasaje ADD FOREIGN KEY (id_vuelo) REFERENCES vuelo(id_vuelo);
+INSERT INTO pasaje (asiento,id_pasajero,id_vuelo)
+VALUES
+(15,14,6),
+(20,2,5),
+(15,11,3),
+(34,19,6),
+(44,20,9),
+(30,20,6),
+(29,4,1),
+(20,5,9),
+(42,17,3),
+(11,10,9);
