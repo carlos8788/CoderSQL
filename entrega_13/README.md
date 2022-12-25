@@ -1,8 +1,8 @@
-## Crear tablas
+# Crear tablas
 
-# Primero ejecutar el archivo ScriptTablasPerezGonzalez.sql
+## Primero ejecutar el archivo ScriptTablasPerezGonzalez.sql
 
 
-## Inserción de datos
+# Inserción de datos
 
-# Luego para insertar los datos ejecutar el archivo ScriptInsPerezGonzalez.sql
+## Luego para insertar los datos ejecutar el archivo ScriptInsPerezGonzalez.sql
