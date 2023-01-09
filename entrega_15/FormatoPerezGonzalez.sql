@@ -1,3 +1,4 @@
+use vuelos_comerciales;
 DROP FUNCTION IF EXISTS vuelos_asignados;
 DELIMITER $$
 -- Funcion que recibe como parametro un ID y busca si el avion de ese ID tiene algún vuelo asignado
