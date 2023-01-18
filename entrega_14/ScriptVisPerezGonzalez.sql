@@ -48,4 +48,7 @@ FROM avion
 WHERE id_avion NOT IN (SELECT id_avion
 							FROM vuelo);
 
-
+SELECT 
+(SELECT nombre_auto FROM automovil WHERE automovil.id_auto = adquiere.fk_auto) nombre_del_auto,
+(SELECT nombre_vendedor FROM vendedor WHERE vendedor.id_vendedor = adquiere.fk_vendedor) nombre_de_vendedor
+WHERE adquiere;
