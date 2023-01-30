@@ -560,6 +560,7 @@ IF nombre <> ''  AND apellido <> '' AND posicion_ <> ''THEN
 	ELSE
 		SET mensaje = 'ERROR al registrar recuerde pasar Azafata, Administrativo, Piloto, Técnico como posición';
 	END IF;
+		
 ELSE
 	set mensaje = 'ERROR al registrar';
 END IF;
@@ -644,7 +645,6 @@ after INSERT ON empleados
 FOR EACH ROW
 INSERT INTO logs_empleados VALUES (NEW.id_empleado, 'nuevo_registro', NEW.nombre_empleado, NEW.apellido_empleado, NEW.sueldo, USER(), current_time(), current_date());
 
--- 
 -- call insertar_empleado(23, 'Luis', 'Perez', 'Técnico', @mensaje);
 -- select @mensaje;
 
