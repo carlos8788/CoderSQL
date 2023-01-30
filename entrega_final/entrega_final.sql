@@ -538,22 +538,22 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS insertar_empleado;
 DELIMITER //
-CREATE PROCEDURE insertar_empleado(IN id INT, IN nombre VARCHAR(20), apellido VARCHAR(20), posicion_ VARCHAR(20), OUT mensaje VARCHAR(255))
+CREATE PROCEDURE insertar_empleado(IN id INT, IN nombre VARCHAR(20), apellido VARCHAR(20), posicion_ VARCHAR(45), OUT mensaje VARCHAR(255))
 BEGIN
 IF nombre <> ''  AND apellido <> '' AND posicion_ <> ''THEN
 	IF posicion_ = 'Azafata' THEN
 		SET @ide = concat('AZ0',id);
 		INSERT INTO empleados (id_empleado, posicion, nombre_empleado, apellido_empleado, antiguedad, sueldo) values (@ide, posicion_, nombre, apellido, 0, 1000);
 		SET mensaje = 'Se registró con éxito al empleado';
-	ELSEIF posicion = 'Administrativo' THEN
+	ELSEIF posicion_ = 'Administrativo' THEN
 		SET @ide = concat('OF0',id);
 		INSERT INTO empleados (id_empleado, posicion, nombre_empleado, apellido_empleado, antiguedad, sueldo) values (@ide, posicion_, nombre, apellido, 0, 1000);
 		SET mensaje = 'Se registró con éxito al empleado';
-    ELSEIF posicion = 'Piloto' THEN
+    ELSEIF posicion_ = 'Piloto' THEN
 		SET @ide = concat('PI0',id);
 		INSERT INTO empleados (id_empleado, posicion, nombre_empleado, apellido_empleado, antiguedad, sueldo) values (@ide, posicion_, nombre, apellido, 0, 1000);
 		SET mensaje = 'Se registró con éxito al empleado';
-    ELSEIF posicion = 'Técnico' THEN
+    ELSEIF posicion_ = 'Técnico' THEN
 		SET @ide = concat('ST0',id);
 		INSERT INTO empleados (id_empleado, posicion, nombre_empleado, apellido_empleado, antiguedad, sueldo) values (@ide, posicion_, nombre, apellido, 0, 1000);
 		SET mensaje = 'Se registró con éxito al empleado';
@@ -644,6 +644,7 @@ after INSERT ON empleados
 FOR EACH ROW
 INSERT INTO logs_empleados VALUES (NEW.id_empleado, 'nuevo_registro', NEW.nombre_empleado, NEW.apellido_empleado, NEW.sueldo, USER(), current_time(), current_date());
 
+-- 
 -- call insertar_empleado(23, 'Luis', 'Perez', 'Técnico', @mensaje);
 -- select @mensaje;
 
