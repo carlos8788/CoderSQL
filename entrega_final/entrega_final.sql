@@ -11,17 +11,6 @@ CREATE TABLE IF NOT EXISTS pasajeros (
     PRIMARY KEY (id_pasajero)
 );
 
-CREATE TABLE IF NOT EXISTS pasajeros_frecuentes (
-    id_pas_fre INT NOT NULL AUTO_INCREMENT,
-    id_pasajero INT NOT NULL,
-    cantidad_pasajes INT NOT NULL,
-    PRIMARY KEY (id_pas_fre),
-    FOREIGN KEY (id_pasajero) 
-    REFERENCES pasajeros(id_pasajero)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS empleados (
     id_empleado VARCHAR(20) NOT NULL UNIQUE,
     posicion VARCHAR(45) NOT NULL,
@@ -67,7 +56,6 @@ CREATE TABLE IF NOT EXISTS pasaje (
     id_pasaje INT NOT NULL AUTO_INCREMENT,
     id_pasajero INT NOT NULL,
     id_vuelo INT NOT NULL,
-    pas_fre BOOLEAN NOT NULL,
     asiento INT NOT NULL,
     precio DECIMAL(8,3) NOT NULL,
     PRIMARY KEY (id_pasaje),
@@ -103,8 +91,6 @@ CREATE TABLE IF NOT EXISTS vuelo (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
-
-
 
 CREATE TABLE IF NOT EXISTS taller (
     id_taller INT NOT NULL AUTO_INCREMENT,
@@ -170,16 +156,30 @@ CREATE TABLE IF NOT EXISTS proveedores (
     ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS destinos_frecuentes (
-    id_dest_frec INT NOT NULL AUTO_INCREMENT,
-    id_punto INT NOT NULL,
-    cantidad_vuelos INT NOT NULL,
-    PRIMARY KEY (id_dest_frec),
+CREATE TABLE IF NOT EXISTS compras_a_proveedores (
+    id_compra INT NOT NULL AUTO_INCREMENT,
+    id_proveedor INT NOT NULL,
+    total DECIMAL(20,2) NOT NULL,
+    PRIMARY KEY (id_compra),
+    FOREIGN KEY (id_proveedor) 
+    REFERENCES proveedores(id_proveedor)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS almacen (
+    id_almacen INT NOT NULL AUTO_INCREMENT,
+    id_punto INT NOT NUll,
+    nombre_producto VARCHAR(100),
+    cantidad INT NOT NULL,
+    PRIMARY KEY (id_almacen),
     FOREIGN KEY (id_punto) 
     REFERENCES punto(id_punto)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+
 
 ALTER TABLE pasaje 
 ADD FOREIGN KEY (id_vuelo) 
@@ -336,28 +336,28 @@ VALUES
 ('AZ020', 'PI019', 18, 2, '13:02', '2023-01-12'),
 ('AZ013', 'PI07', 12, 19, '12:10', '2023-01-30');
 
-INSERT INTO pasaje (id_pasajero, id_vuelo, pas_fre, asiento, precio)
+INSERT INTO pasaje (id_pasajero, id_vuelo, asiento, precio)
 VALUES
-(10, 1, 1, 37, 893),
-(8, 7, 1, 36, 268),
-(11, 6, 0, 6, 658),
-(6, 6, 1, 31, 264),
-(8, 2, 1, 4, 696),
-(7, 4, 1, 17, 712),
-(20, 5, 0, 12, 271),
-(12, 2, 0, 28, 601),
-(6, 4, 1, 31, 924),
-(3, 10, 0, 25, 439),
-(1, 2, 0, 29, 409),
-(14, 10, 1, 11, 862),
-(10, 7, 1, 19, 639),
-(7, 7, 0, 39, 285),
-(19, 9, 1, 6, 640),
-(1, 2, 1, 7, 541),
-(7, 7, 0, 5, 574),
-(7, 4, 0, 25, 957),
-(3, 2, 0, 10, 999),
-(4, 4, 0, 23, 571);
+(10, 1, 37, 893),
+(8, 7, 36, 268),
+(11, 6, 6, 658),
+(6, 6, 31, 264),
+(8, 2, 4, 696),
+(7, 4, 17, 712),
+(20, 5, 12, 271),
+(12, 2, 28, 601),
+(6, 4, 31, 924),
+(3, 10, 25, 439),
+(1, 2, 29, 409),
+(14, 10, 11, 862),
+(10, 7, 19, 639),
+(7, 7, 39, 285),
+(19, 9, 6, 640),
+(1, 2, 7, 541),
+(7, 7, 5, 574),
+(7, 4, 25, 957),
+(3, 2, 10, 999),
+(4, 4, 23, 571);
 
 INSERT INTO taller (id_punto, id_empleado, telefono)
 VALUES
@@ -404,6 +404,25 @@ VALUES
 (14, 'Gativideo', 'Entretenimiento'),
 (9, 'Grupo Queruclor', 'Limpieza');
 
+
+INSERT INTO almacen (id_punto, nombre_producto, cantidad)
+VALUES
+(10, 'Café', 6985),
+(18, 'Gaseosas', 1547),
+(9, 'Pintura alto rendimiento', 230),
+(13, 'Computadoras', 520),
+(4, 'Luces internas', 41),
+(15, 'Ruedas', 263);
+
+INSERT INTO compras_a_proveedores(id_proveedor, total)
+VALUES
+(1, 9874.12),
+(2, 124561.12),
+(3, 1324654.14),
+(4, 654321.36),
+(5, 6549874.96);
+
+
 -- CREACIÓN DE VISTAS
 ##############################################################
 
@@ -415,7 +434,7 @@ FROM empleados
 WHERE id_empleado like 'PI%';
 
 -- Vista que muestra pasajeros con pasaje comprado
-CREATE OR REPLACE VIEW pasajeros_pasaje AS
+CREATE OR REPLACE VIEW pasajeros_con_pasaje AS
 SELECT DISTINCT nombre_pasajero, apellido_pasajero 
 FROM pasajeros
 INNER JOIN pasaje ON pasajeros.id_pasajero IN(pasaje.id_pasajero);
@@ -540,27 +559,27 @@ DROP PROCEDURE IF EXISTS insertar_empleado;
 DELIMITER //
 CREATE PROCEDURE insertar_empleado(IN id INT, IN nombre VARCHAR(20), apellido VARCHAR(20), posicion_ VARCHAR(45), OUT mensaje VARCHAR(255))
 BEGIN
+DECLARE ide VARCHAR(10) DEFAULT '';
 IF nombre <> ''  AND apellido <> '' AND posicion_ <> ''THEN
 	IF posicion_ = 'Azafata' THEN
 		SET @ide = concat('AZ0',id);
 		INSERT INTO empleados (id_empleado, posicion, nombre_empleado, apellido_empleado, antiguedad, sueldo) values (@ide, posicion_, nombre, apellido, 0, 1000);
 		SET mensaje = 'Se registró con éxito al empleado';
-	ELSEIF posicion_ = 'Administrativo' THEN
+	ELSEIF posicion = 'Administrativo' THEN
 		SET @ide = concat('OF0',id);
 		INSERT INTO empleados (id_empleado, posicion, nombre_empleado, apellido_empleado, antiguedad, sueldo) values (@ide, posicion_, nombre, apellido, 0, 1000);
 		SET mensaje = 'Se registró con éxito al empleado';
-    ELSEIF posicion_ = 'Piloto' THEN
+    ELSEIF posicion = 'Piloto' THEN
 		SET @ide = concat('PI0',id);
 		INSERT INTO empleados (id_empleado, posicion, nombre_empleado, apellido_empleado, antiguedad, sueldo) values (@ide, posicion_, nombre, apellido, 0, 1000);
 		SET mensaje = 'Se registró con éxito al empleado';
-    ELSEIF posicion_ = 'Técnico' THEN
+    ELSEIF posicion = 'Técnico' THEN
 		SET @ide = concat('ST0',id);
 		INSERT INTO empleados (id_empleado, posicion, nombre_empleado, apellido_empleado, antiguedad, sueldo) values (@ide, posicion_, nombre, apellido, 0, 1000);
 		SET mensaje = 'Se registró con éxito al empleado';
 	ELSE
 		SET mensaje = 'ERROR al registrar recuerde pasar Azafata, Administrativo, Piloto, Técnico como posición';
 	END IF;
-		
 ELSE
 	set mensaje = 'ERROR al registrar';
 END IF;
@@ -601,7 +620,7 @@ after INSERT ON pasajeros
 FOR EACH ROW
 INSERT INTO logs_pasajeros VALUES (NEW.id_pasajero, 'nuevo_registro', NEW.nombre_pasajero, NEW.apellido_pasajero, USER(), current_time(), current_date());
 
--- INSERT INTO pasajeros (nombre_pasajero, apellido_pasajero, domicilio) VALUES ("Luis Carlos", "Perez", "av siempre viva 321");
+INSERT INTO pasajeros (nombre_pasajero, apellido_pasajero, domicilio) VALUES ("Luis Carlos", "Perez", "av siempre viva 321");
 
 
 /*
@@ -616,9 +635,9 @@ UPDATE logs_pasajeros
 SET condicion='actualizacion', nombre_pasajero = NEW.nombre_pasajero, usuario=USER(), hora=current_time(), fecha=current_date()
 WHERE id_pasajero=OLD.id_pasajero;
 
--- UPDATE pasajeros SET nombre_pasajero = 'Carlitos' WHERE id_pasajero=17;
+-- UPDATE pasajeros SET nombre_pasajero = 'Carlitos' WHERE id_pasajero=21;
 
--- select id_pasajero,nombre_pasajero from pasajeros
+-- select id_pasajero,nombre_pasajero from pasajeros;
 
 
 DROP TABLE IF EXISTS logs_empleados;
@@ -664,3 +683,27 @@ WHERE id_empleado=OLD.id_empleado;
 -- UPDATE empleados SET sueldo = 2010 WHERE id_empleado='ST023';
 
 -- select * from empleados
+
+
+-- Informes generados en base a la información de la base
+#####################################################################
+
+/*
+-- Consulta donde que me muestra donde aún no hay un taller abierto
+SELECT  punto.*
+FROM punto
+LEFT OUTER JOIN taller ON taller.id_punto = punto.id_punto
+WHERE taller.id_punto is NULL;
+
+-- Consulta que muestra la cantidad de pasajes comprados por cada pasajero que ya tiene por lo menos un pasaje
+SELECT pasaje.id_pasajero, count(pasaje.id_pasajero) pasajes_comprados
+FROM
+pasaje
+GROUP BY
+pasaje.id_pasajero HAVING count(pasaje.id_pasajero);
+
+-- Consulta que me devuelve las compras realizadas menores a 200.000
+SELECT proveedores.nombre
+FROM proveedores
+WHERE EXISTS (SELECT id_compra FROM compras_a_proveedores WHERE compras_a_proveedores.id_proveedor = proveedores.id_proveedor AND compras_a_proveedores.total < 200000);
+*/
